@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Multiplication Quiz</title>
+
+<style>
+    :root {
+        --primary-color: #4f46e5;
+        --bg-color: #f3f4f6;
+        --card-bg: #ffffff;
+        --text-color: #1f2937;
+        --accent-correct: #10b981;
+        --accent-wrong: #ef4444;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60dvh; /* Handles dynamic mobile viewport height */
+        padding: 20px;
+    }
+
+    .box {
+        background: var(--card-bg);
+        padding: 32px 24px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        text-align: center;
+        width: 100%;
+        max-width: 360px; /* Responsive maximum width */
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 24px;
+    }
+
+    #question {
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin-bottom: 24px;
+        color: var(--text-color);
+    }
+
+    input {
+        width: 100%;
+        padding: 16px;
+        font-size: 1.5rem; /* Prevents auto-zoom on iOS */
+        font-weight: 600;
+        text-align: center;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        background-color: #f9fafb;
+    }
+
+    input:focus {
+        border-color: var(--primary-color);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        min-height: 28px; /* Keeps card height consistent while blank */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #score {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #f3f4f6;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #6b7280;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #score span {
+        font-weight: 700;
+    }
+
+    #correct {
+        color: var(--accent-correct);
+    }
+
+    #wrong {
+        color: var(--accent-wrong);
+    }
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>गुणा अभ्यास</h2>
+
+    <div id="question"></div>
+
+    <input type="number" id="answer" placeholder="उत्तर लिखें" inputmode="numeric" autofocus>
+
+    <div id="result"></div>
+
+    <div id="score">
+        <div>सही: <span id="correct">0</span></div>
+        <div>गलत: <span id="wrong">0</span></div>
+    </div>
+</div>
+
+<script>
+
+const questions = [
+    {q:"8 × 3 = ?", a:24},
+    {q:"6 × 7 = ?", a:42},
+    {q:"3 × 6 = ?", a:18},
+    {q:"9 × 3 = ?", a:27},
+    {q:"9 × 6 = ?", a:54},
+    {q:"4 × 9 = ?", a:36},
+    {q:"3 × 9 = ?", a:27},
+    {q:"9 × 7 = ?", a:63}
+];
+
+let currentQuestion;
+let correct = 0;
+let wrong = 0;
+
+function loadQuestion(){
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    currentQuestion = questions[randomIndex];
+
+    document.getElementById("question").textContent = currentQuestion.q;
+    document.getElementById("answer").value = "";
+    document.getElementById("answer").focus();
+}
+
+document.getElementById("answer").addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+
+        const userAnswer = Number(this.value);
+
+        if(userAnswer === currentQuestion.a){
+            correct++;
+            document.getElementById("result").textContent = "✅ सही";
+            document.getElementById("result").style.color = "var(--accent-correct)";
+        }else{
+            wrong++;
+            document.getElementById("result").textContent =
+                "❌ गलत (सही उत्तर: " + currentQuestion.a + ")";
+            document.getElementById("result").style.color = "var(--accent-wrong)";
+        }
+
+        document.getElementById("correct").textContent = correct;
+        document.getElementById("wrong").textContent = wrong;
+
+        setTimeout(() => {
+            document.getElementById("result").textContent = "";
+            loadQuestion();
+        }, 700);
+    }
+});
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

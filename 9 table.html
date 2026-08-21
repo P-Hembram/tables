@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9 Table Practice</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #cdc9c9;
+        margin: 0;
+        padding: 20px 15px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        background: rgb(201, 236, 243);
+        width: 100%;
+        max-width: 400px;
+        padding: 25px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+       
+    }
+
+    h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    #question {
+        font-size: 2.2rem;
+        margin: 20px 0;
+        font-weight: bold;
+    }
+
+    input {
+        padding: 12px;
+        font-size: 1.25rem;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #007bff;
+    }
+
+    button {
+        padding: 14px 24px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 15px;
+        width: 100%;
+        max-width: 200px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        touch-action: manipulation;
+    }
+
+    button:active {
+        background-color: #0056b3;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        min-height: 27px;
+    }
+
+    #score {
+        margin-top: 15px;
+        font-size: 1.25rem;
+        color: green;
+        font-weight: bold;
+    }
+    @media screen and (max-width: 767px) {
+        
+        .container {
+             margin-top: -300px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>9 Table Practice</h1>
+
+    <div id="question"></div>
+
+    <input type="number" id="answer" placeholder="Answer">
+
+    <br><br>
+
+    <button onclick="checkAnswer()">Submit</button>
+
+    <div id="result"></div>
+
+    <div id="score">Score: 0</div>
+</div>
+
+<script>
+
+let score = 0;
+let currentNumber;
+
+function generateQuestion() {
+    currentNumber = Math.floor(Math.random() * 10) + 1;
+
+    document.getElementById("question").innerText =
+        `9 × ${currentNumber} = ?`;
+
+    document.getElementById("answer").value = "";
+    document.getElementById("answer").focus();
+}
+
+function checkAnswer() {
+
+    let userAnswer =
+        Number(document.getElementById("answer").value);
+
+    let correctAnswer = 9 * currentNumber;
+
+    if(userAnswer === correctAnswer){
+        score++;
+        document.getElementById("result").innerHTML =
+            "✅ Correct!";
+    }
+    else{
+        document.getElementById("result").innerHTML =
+            `❌ Wrong! Correct Answer = ${correctAnswer}`;
+    }
+
+    document.getElementById("score").innerText =
+        `Score: ${score}`;
+
+    generateQuestion();
+}
+
+document.getElementById("answer")
+.addEventListener("keydown", function(event){
+    if(event.key === "Enter"){
+        checkAnswer();
+    }
+});
+
+generateQuestion();
+
+</script>
+
+</body>
+</html>
